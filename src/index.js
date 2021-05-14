@@ -7,6 +7,8 @@ import phonesMask from './modules/phonesMask';
 import sendForms from './modules/sendForms';
 import privacyPopup from './modules/privacyPopup';
 import formula from './modules/formula';
+import runSliderFormula from './modules/runSliderFormula';
+import sliders from './modules/sliders';
 
 
 arrowTelephone();
@@ -20,3 +22,7 @@ sendForms();
 privacyPopup();
 
 formula();
+
+runSliderFormula();
+
+sliders();

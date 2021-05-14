@@ -5,17 +5,26 @@ const burgerMenu = () => {
     linkListRepair = document.querySelectorAll('.link-list-repair>a'),
     closeBtns = document.querySelectorAll('.close');
 
-  closeBtns.forEach(item => {
-    item.addEventListener('click', e => {
-      const target = e.target;
 
+  document.body.addEventListener('click', e => {
+    const target = e.target;
+    if (target.matches('.close-menu')) {
+      dialogMenu.style.top = '0';
+      dialogMenu.style.right = '0';
+    }
+    if (!target.closest('.popup-dialog')) {
       if (target.closest('.popup-menu')) {
-        dialogMenu.style.top = '0';
-        dialogMenu.style.right = '0';
-      } else {
+        return;
+      } else if (target.closest('.popup')) {
         target.closest('.popup').classList.toggle('visibility-visible');
       }
-    });
+    }
+    if (target.matches('.menu__icon')) {
+      return;
+    } else if (!target.closest('.popup-menu')) {
+      dialogMenu.style.top = '0';
+      dialogMenu.style.right = '0';
+    }
   });
 
   linkListRepair.forEach(item => {

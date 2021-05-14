@@ -1105,8 +1105,9 @@ template, [hidden] {
 }
 
 .formula-slider {
-    min-height: 400px;
-    margin-top: 102px;
+    min-height: 340px;
+    margin-bottom: 70px;
+    
 }
 
 @media (max-width: 575px) {
@@ -7008,8 +7009,7 @@ div.wave-block:nth-child(17):after {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    top: 50%;
-    margin-top: -19px;
+    top: 55%;
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -7505,6 +7505,7 @@ div.wave-block:nth-child(17):after {
         width: 44px;
         height: 44px;
         font-size: 10px;
+        z-index: 2;
     }
 }
 
@@ -8990,6 +8991,18 @@ strong {
     
 }
 
-.types-repair1 {
-    display: none;
+
+
+.repair-types-slider__slide {
+    /* visibility: hidden;
+    opacity: 0;
+    transition: 0.5s; */
+    /* //display: none; */
+}
+
+.repair-types-slider__slide-active {
+    visibility: visible;
+    opacity: 1;
+    transition: 0.5s;
+    display: block;
 }
