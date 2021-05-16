@@ -50,6 +50,10 @@ body {
 
 /* UI компоненты и стили*/
 
+.non-visible {
+    display: none;
+}
+
 .button {
     display: flex;
     justify-content: center;
