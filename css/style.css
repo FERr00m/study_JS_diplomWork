@@ -2268,15 +2268,14 @@ div.wave-block:nth-child(17):after {
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
-    overflow: hidden;
     z-index: 1;
 }
 
-@media (max-width: 1140px) {
+/* @media (max-width: 1140px) {
     .portfolio-slider {
         width: 92%;
     }
-}
+} */
 
 @media (max-width: 575px) {
     .portfolio-slider {
@@ -2293,7 +2292,7 @@ div.wave-block:nth-child(17):after {
 
 @media (max-width: 900px) {
     .portfolio-slider-wrap {
-        max-width: 428px;
+        max-width: 352px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -2314,11 +2313,19 @@ div.wave-block:nth-child(17):after {
 
 .portfolio-slider__slide-frame {
     position: relative;
+    /* width: 290px; */
+    
 }
 
 @media (min-width: 901px) {
     .portfolio-slider__slide-frame {
         width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .portfolio-slider__slide-frame {
+        width: 290px ;
     }
 }
 
@@ -2349,7 +2356,6 @@ div.wave-block:nth-child(17):after {
 .portfolio-slider-mobile {
     border-radius: 20px;
     height: 210px;
-    overflow: hidden;
 }
 
 .transparency {
@@ -2432,6 +2438,7 @@ div.wave-block:nth-child(17):after {
 @media (max-width: 1090px) {
     .transparency-slider.row {
         display: block;
+        flex-wrap: nowrap;
     }
 }
 
@@ -2442,12 +2449,15 @@ div.wave-block:nth-child(17):after {
 @media (max-width: 1024px) {
     .transparency-slider-wrap {
         margin-top: 100px;
+        width: 453px;
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 575px) {
     .transparency-slider-wrap {
         margin-top: 20px;
+        width: 270px;
     }
 }
 
@@ -2520,7 +2530,7 @@ div.wave-block:nth-child(17):after {
 
 @media (max-width: 1024px) {
     .transparency-item {
-        width: auto;
+        width: 100%;
     }
 }
 
@@ -4147,7 +4157,7 @@ div.wave-block:nth-child(17):after {
 
 .reviews-slider {
     height: 314px;
-    overflow: hidden;
+    
 }
 
 .reviews-slider-wrap {
@@ -4161,6 +4171,13 @@ div.wave-block:nth-child(17):after {
 @media (max-width: 1024px) {
     .reviews-slider-wrap {
         margin-top: 65px;
+    }
+}
+
+@media (max-width: 575px) {
+    .reviews-slider-wrap {
+        margin-top: 65px;
+        width: 290px;
     }
 }
 
@@ -5201,9 +5218,13 @@ div.wave-block:nth-child(17):after {
     border-radius: 20px !important;
 }
 
+.popup-repair-types-nav__item.active {
+    border-color: #F48922 !important;
+}
+
 @media (max-width: 1024px) {
     .popup-repair-types-nav__item {
-        width: 298px;
+        min-width: 286px;
         height: 37px;
         padding-left: 0;
         text-align: center;
@@ -5973,7 +5994,7 @@ div.wave-block:nth-child(17):after {
 
 .popup-portfolio-slider__slide {
     height: 100%;
-    overflow: hidden;
+    width: 100%;
 }
 
 @media (max-width: 575px) {
@@ -5984,7 +6005,7 @@ div.wave-block:nth-child(17):after {
 
     .popup-portfolio-slider__slide img {
         height: 115%;
-        width: auto;
+        width: 320px;
     }
 }
 
@@ -7233,23 +7254,23 @@ div.wave-block:nth-child(17):after {
 
 .nav-list-popup-repair {
     text-align: center;
-    min-width: 320px;
+    min-width: 286px;
     display: block;
 }
 
 @media (max-width: 1024px) {
     .nav-list-popup-repair {
-        min-width: 3130px;
+        /* min-width: 3130px; */
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+        /* -ms-flex-wrap: wrap;
+        flex-wrap: wrap; */
         max-width: 100%;
     }
 }
 
-@media (max-width: 575px) {
+/* @media (max-width: 575px) {
     .nav-list-popup-repair {
         min-width: 2840px;
     }
@@ -7259,7 +7280,7 @@ div.wave-block:nth-child(17):after {
     .nav-list-designs {
         min-width: 900px;
     }
-}
+} */
 
 .nav-list_vertical {
     width: 319px;
@@ -7415,7 +7436,7 @@ div.wave-block:nth-child(17):after {
 
 @media (max-width: 575px) {
     .popup-arrow_transparency_left {
-        left: 0;
+        left: -35px;
         margin-left: 10px;
     }
 }
@@ -7426,7 +7447,7 @@ div.wave-block:nth-child(17):after {
 
 @media (max-width: 575px) {
     .popup-arrow_transparency_right {
-        right: 0;
+        right: -35px;
         margin-right: 10px;
     }
 }
@@ -7507,6 +7528,9 @@ div.wave-block:nth-child(17):after {
         font-size: 10px;
         z-index: 2;
     }
+    .slider-counter {
+        margin-left: -23px;
+    }
 }
 
 @media (max-width: 1024px) and (max-width: 1024px) {
@@ -7527,7 +7551,7 @@ div.wave-block:nth-child(17):after {
     .slider-counter-responsive {
         width: 38px;
         height: 38px;
-        bottom: -17px;
+        bottom: 0;
     }
 }
 
@@ -8208,45 +8232,45 @@ div.wave-block:nth-child(17):after {
     }
 }
 
-#portfolio-arrow_left {
+/* #portfolio-arrow_left {
     display: none;
-}
+} */
 
 @media (max-width: 900px) {
     #portfolio-arrow_left {
-        left: -50px;
+        left: 60px;
     }
 }
 
 @media (max-width: 900px) {
     #portfolio-arrow_right {
-        right: -50px;
+        right: 60px;
     }
 }
 
 #reviews-arrow_left {
-    top: 75%;
-    left: -80px;
+    top: 16%;
+    left: 5%;
 }
 
-@media (max-width: 575px) {
+/* @media (max-width: 575px) {
     #reviews-arrow_left {
         top: 117%;
         left: 55px;
     }
-}
+} */
 
 #reviews-arrow_right {
-    top: 75%;
-    right: -80px;
+    top: 16%;
+    right: 5%;
 }
 
-@media (max-width: 575px) {
+/* @media (max-width: 575px) {
     #reviews-arrow_right {
         top: 117%;
         right: 55px;
     }
-}
+} */
 
 #transparency-arrow_left {
     left: 220px;
@@ -8453,7 +8477,7 @@ strong {
 
 @media (max-width: 1024px) {
     .wrapper_middle {
-        max-width: 767px;
+        max-width: 704px;
     }
 }
 
@@ -8974,6 +8998,11 @@ strong {
     display: none;
 }
 
+.non-visible {
+    visibility: hidden;
+    opacity: 0;
+}
+
 .visibility-visible {
     visibility: visible;
     opacity: 1;
@@ -8991,18 +9020,23 @@ strong {
     
 }
 
-
-
-.repair-types-slider__slide {
-    /* visibility: hidden;
-    opacity: 0;
-    transition: 0.5s; */
-    /* //display: none; */
-}
-
 .repair-types-slider__slide-active {
     visibility: visible;
     opacity: 1;
     transition: 0.5s;
     display: block;
+}
+
+.wrapper_middle-no-padding {
+    padding: 0;
+}
+
+.glo-slider2 {
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  .glo-slider3, .formula-slider-wrap {
+    overflow: hidden;
+  
 }

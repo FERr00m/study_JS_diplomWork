@@ -9,6 +9,9 @@ import privacyPopup from './modules/privacyPopup';
 import formula from './modules/formula';
 import runSliderFormula from './modules/runSliderFormula';
 import sliders from './modules/sliders';
+import sliderPortfolio from './modules/sliderPortfolio';
+import accordion from './modules/accordion';
+import worksList from './modules/worksList';
 
 
 arrowTelephone();
@@ -26,3 +29,9 @@ formula();
 runSliderFormula();
 
 sliders();
+
+sliderPortfolio();
+
+accordion();
+
+worksList();
