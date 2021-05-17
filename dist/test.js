@@ -15,8 +15,7 @@ const arrowTelephone = () => {
 arrowTelephone();
 
 const burgerMenu = () => {
-  const menuIcon = document.querySelector('.menu__icon'),
-    dialogMenu = document.querySelector('.popup-dialog-menu'),
+  const dialogMenu = document.querySelector('.popup-dialog-menu'),
     popupRepairTypes = document.querySelector('.popup-repair-types'),
     linkListRepair = document.querySelectorAll('.link-list-repair>a'),
     popupConsultation = document.querySelector('.popup-consultation');
@@ -50,7 +49,16 @@ const burgerMenu = () => {
       }
     }
     if (target.matches('.menu__icon')) {
-      return;
+      if (window.screen.width > 1024) {
+        dialogMenu.style.right = '639px';
+        dialogMenu.style.top = '0';
+      } else if (window.screen.width < 1024 && window.screen.width > 576) {
+        dialogMenu.style.right = '549px';
+        dialogMenu.style.top = '0';
+      } else if (window.screen.width < 576) {
+        dialogMenu.style.top = '100%';
+        dialogMenu.style.right = '0';
+      }
     } else if (!target.closest('.popup-menu')) {
       dialogMenu.style.top = '0';
       dialogMenu.style.right = '0';
@@ -63,18 +71,6 @@ const burgerMenu = () => {
     });
   });
 
-  menuIcon.addEventListener('click', () => {
-    if (window.screen.width > 1024) {
-      dialogMenu.style.right = '639px';
-      dialogMenu.style.top = '0';
-    } else if (window.screen.width < 1024 && window.screen.width > 576) {
-      dialogMenu.style.right = '549px';
-      dialogMenu.style.top = '0';
-    } else if (window.screen.width < 576) {
-      dialogMenu.style.top = '100%';
-      dialogMenu.style.right = '0';
-    }
-  });
 
   dialogMenu.addEventListener('click', e => {
     const target = e.target;
@@ -163,6 +159,9 @@ const sendForms = () => {
 
 
       if (checkBox.checked && body.phone && (body.name || body.name === undefined)) {
+        if (item.id === 'feedback6') {
+          item.closest('.popup').classList.toggle('visibility-visible');
+        }
 
         postData(body)
           .then(response => {
@@ -172,6 +171,7 @@ const sendForms = () => {
           })
           .then(() => {
             popupThank.classList.toggle('visibility-visible');
+            setTimeout(() => popupThank.classList.toggle('visibility-visible'), 3000);
             inputs.forEach(item => {
               item.value = '';
               if (item.checked) {
@@ -455,16 +455,8 @@ const runSliderFormula = () => {
     responsive: [
       {
         breakpoint: 1024,
-        slidesToShow: 3,
-      },
-      {
-        breakpoint: 768,
         slidesToShow: 1,
       },
-      {
-        breakpoint: 576,
-        slidesToShow: 1,
-      }
     ]
   });
 
@@ -480,10 +472,8 @@ const sliders = () => {
     repairTypesSlider = repairTypes.querySelectorAll('.repair-types-slider>div'),
     navListRepairBtns = repairTypes.querySelectorAll('.nav-list-repair>button'),
     repairCounterCurrent = document.querySelector('.slider-counter-content__current'),
-    repairCounterTotal = document.querySelector('.slider-counter-content__total'),
-    navListRepair = document.querySelector('.nav-list-repair');
+    repairCounterTotal = document.querySelector('.slider-counter-content__total');
 
-  let x = 0;
 
   let slideIndex = 1;
   /* Вызываем функцию, которая реализована ниже: */
@@ -574,19 +564,8 @@ const sliders = () => {
       });
     }
 
-    if (target.closest('#nav-arrow-repair-right_base')) {
-      if (x !== -700) {
-        x -= 100;
-        navListRepair.style = `transform: translateX(${x}px);`;
-      }
-    } else if (target.closest('#nav-arrow-repair-left_base')) {
-      if (x !== 0) {
-        x += 100;
-        navListRepair.style = `transform: translateX(${x}px);`;
-      }
-    }
-
   });
+
 };
 
 sliders();
@@ -720,33 +699,9 @@ const sliderPortfolio = () => {
     portfolioArrowLeft.addEventListener('click', currentSlide);
   }
 
-  class SliderCarousel2 {
-    constructor({
-      main,
-      wrap,
-      next,
-      prev,
-      infinity = false,
-      position = 0,
-      slidesToShow = 3,
-      responsive = [],
-
-    }) {
-      if (!main || !wrap) {
-        console.warn('slider-carousel: Необходимо 2 свойства, "main" и "wrap"!');
-      }
-      this.main = document.querySelector(main);
-      this.wrap = document.querySelector(wrap);
-      this.slides = document.querySelector(wrap).children;
-      this.next = document.querySelector(next);
-      this.prev = document.querySelector(prev);
-      this.slidesToShow = slidesToShow;
-      this.options = {
-        position,
-        infinity,
-        widthSlide: Math.floor(100 / this.slidesToShow),
-      };
-      this.responsive = responsive;
+  class SliderCarousel2 extends SliderCarousel {
+    constructor(...args) {
+      super(...args);
     }
 
     init() {
@@ -756,7 +711,6 @@ const sliderPortfolio = () => {
       if (this.prev && this.next) {
         this.controlSlider();
       } else {
-        this.addArrow();
         this.controlSlider();
       }
 
@@ -771,34 +725,6 @@ const sliderPortfolio = () => {
       for (const item of this.slides) {
         item.classList.add('glo-slider__item2');
       }
-    }
-
-
-    controlSlider() {
-      this.prev.addEventListener('click', this.prevSlider.bind(this));
-      this.next.addEventListener('click', this.nextSlider.bind(this));
-    }
-
-    prevSlider() {
-      if (this.options.infinity || this.options.position > 0) {
-        --this.options.position;
-        if (this.options.position < 0) {
-          this.options.position = this.slides.length - this.slidesToShow;
-        }
-        this.wrap.style.transform = `translateX(-${this.options.position * this.options.widthSlide}%)`;
-      }
-
-    }
-
-    nextSlider() {
-      if (this.options.infinity || this.options.position < this.slides.length - this.slidesToShow) {
-        ++this.options.position;
-        if (this.options.position > this.slides.length - this.slidesToShow) {
-          this.options.position = 0;
-        }
-        this.wrap.style.transform = `translateX(-${this.options.position * this.options.widthSlide}%)`;
-      }
-
     }
 
     responseInit() {
@@ -831,8 +757,6 @@ const sliderPortfolio = () => {
 
   const portfolioSliderWrap = document.querySelector('.portfolio-slider-wrap'),
     popupPortfolio = document.querySelector('.popup-portfolio');
-
-
 
 
   const slider = new SliderCarousel2({
@@ -999,7 +923,10 @@ const accordion = () => {
 
   accordionUl.addEventListener('click', e => {
     if (e.target.matches('.title_block')) {
-      e.target.classList.toggle('msg-active');
+      for (const li of accordionUl.children) {
+        li.firstElementChild.classList.remove('msg-active');
+      }
+      e.target.classList.add('msg-active');
     }
   });
 
@@ -1010,7 +937,7 @@ accordion();
 
 //worksList
 const worksList = () => {
-  const getData = () => fetch('../crm-backend/db.json'),
+  const getData = () => fetch(location.origin + '/crm-backend/db.json'),
     popupRepairTypes = document.querySelector('.popup-repair-types'),
     btns = popupRepairTypes.querySelectorAll('.popup-repair-types-nav__item'),
     switchInner = document.getElementById('switch-inner'),
@@ -1078,7 +1005,26 @@ const worksList = () => {
     responsive: [
       {
         breakpoint: 1024,
-        slidesToShow: 2,
+        slidesToShow: 1,
+      },
+      {
+        breakpoint: 576,
+        slidesToShow: 1,
+      },
+
+    ]
+  });
+  const sliderMiniRep = new SliderCarousel({
+    main: '.nav-wrap-repair',
+    wrap: '.nav-list-repair',
+    next: '#nav-arrow-repair-right_base',
+    prev: '#nav-arrow-repair-left_base',
+    slidesToShow: 3,
+    infinity: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        slidesToShow: 1,
       },
       {
         breakpoint: 576,
@@ -1105,6 +1051,7 @@ const worksList = () => {
 
   if (window.innerWidth < 1024) {
     sliderMini.init();
+    sliderMiniRep.init();
   }
 };
 

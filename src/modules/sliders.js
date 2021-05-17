@@ -3,10 +3,8 @@ const sliders = () => {
     repairTypesSlider = repairTypes.querySelectorAll('.repair-types-slider>div'),
     navListRepairBtns = repairTypes.querySelectorAll('.nav-list-repair>button'),
     repairCounterCurrent = document.querySelector('.slider-counter-content__current'),
-    repairCounterTotal = document.querySelector('.slider-counter-content__total'),
-    navListRepair = document.querySelector('.nav-list-repair');
+    repairCounterTotal = document.querySelector('.slider-counter-content__total');
 
-  let x = 0;
 
   let slideIndex = 1;
   /* Вызываем функцию, которая реализована ниже: */
@@ -97,19 +95,8 @@ const sliders = () => {
       });
     }
 
-    if (target.closest('#nav-arrow-repair-right_base')) {
-      if (x !== -700) {
-        x -= 100;
-        navListRepair.style = `transform: translateX(${x}px);`;
-      }
-    } else if (target.closest('#nav-arrow-repair-left_base')) {
-      if (x !== 0) {
-        x += 100;
-        navListRepair.style = `transform: translateX(${x}px);`;
-      }
-    }
-
   });
+
 };
 
 export default sliders;

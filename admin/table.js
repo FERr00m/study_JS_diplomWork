@@ -15,8 +15,10 @@ const checkAdminCookie = () => {
   return flag;
 };
 
+const url = location.origin;
+
 if (!checkAdminCookie()) {
-  document.location.href = "http://127.0.0.1:5500/admin/index.html";
+  document.location.href = `${url}/admin/index.html`;
 } else {
   const typeItemSelect = document.getElementById('typeItem'),
     tbody = document.getElementById('tbody'),
@@ -33,11 +35,11 @@ if (!checkAdminCookie()) {
 
 
   //Блок запросов к API
-  const getData = () => fetch('http://localhost:3000/api/items');
+  const getData = () => fetch(`${url}/api/items`);
 
-  const getDataId = id => fetch(`http://localhost:3000/api/items/${id}`);
+  const getDataId = id => fetch(`${url}/api/items/${id}`);
 
-  const postData = body => fetch('http://localhost:3000/api/items', {
+  const postData = body => fetch(`${url}/api/items`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -45,7 +47,7 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const patchData = (id, body) => fetch(`http://localhost:3000/api/items/${id}`, {
+  const patchData = (id, body) => fetch(`${url}/api/items/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -53,7 +55,7 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const deleteData = id => fetch(`http://localhost:3000/api/items/${id}`, {
+  const deleteData = id => fetch(`${url}/api/items/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

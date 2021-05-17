@@ -6073,6 +6073,7 @@ div.wave-block:nth-child(17):after {
 @media (max-width: 1024px) and (min-width: 576px) {
     .popup-portfolio-text-wrap {
         width: 100%;
+        align-items: center;
     }
 }
 
@@ -6109,9 +6110,8 @@ div.wave-block:nth-child(17):after {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        width: 20%;
+        justify-content: space-around;
+        align-items: center;
     }
 }
 
@@ -6165,6 +6165,9 @@ div.wave-block:nth-child(17):after {
     .popup-portfolio-text-price {
         min-height: 200px;
         height: 200px;
+        flex-direction: row;
+        -ms-flex-direction: row;
+        justify-content: space-around;
     }
 }
 
@@ -6173,6 +6176,8 @@ div.wave-block:nth-child(17):after {
         height: 215px;
         margin-top: -20px;
         text-align: center;
+        -ms-flex-direction: column;
+        flex-direction: column;
     }
 }
 
@@ -7230,27 +7235,27 @@ div.wave-block:nth-child(17):after {
 }
 
 .nav-list-repair {
-    min-width: 390px;
+    min-width: 256px;
     display: block;
 }
 
 @media (max-width: 1024px) {
     .nav-list-repair {
-        min-width: 1200px;
+        /* min-width: 1200px; */
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+        /* -ms-flex-wrap: wrap;
+        flex-wrap: wrap; */
         max-width: 100%;
     }
 }
 
-@media (max-width: 575px) {
+/* @media (max-width: 575px) {
     .nav-list-repair {
         min-width: 1086px;
     }
-}
+} */
 
 .nav-list-popup-repair {
     text-align: center;
@@ -7686,6 +7691,12 @@ div.wave-block:nth-child(17):after {
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+@media (max-width: 1024px) {
+    .button_o svg {
+        left: auto;
+    }
 }
 
 .button_o svg path {
@@ -9036,7 +9047,13 @@ strong {
     border-radius: 20px;
   }
 
-  .glo-slider3, .formula-slider-wrap {
+  .glo-slider3 {
     overflow: hidden;
   
+}
+
+@media (max-width: 1024px) {
+    .portfolio-slider__slide.fade-tab {
+        flex: 0 0 33% !important;
+    }
 }

@@ -1,6 +1,5 @@
 const burgerMenu = () => {
-  const menuIcon = document.querySelector('.menu__icon'),
-    dialogMenu = document.querySelector('.popup-dialog-menu'),
+  const dialogMenu = document.querySelector('.popup-dialog-menu'),
     popupRepairTypes = document.querySelector('.popup-repair-types'),
     linkListRepair = document.querySelectorAll('.link-list-repair>a'),
     popupConsultation = document.querySelector('.popup-consultation');
@@ -34,7 +33,16 @@ const burgerMenu = () => {
       }
     }
     if (target.matches('.menu__icon')) {
-      return;
+      if (window.screen.width > 1024) {
+        dialogMenu.style.right = '639px';
+        dialogMenu.style.top = '0';
+      } else if (window.screen.width < 1024 && window.screen.width > 576) {
+        dialogMenu.style.right = '549px';
+        dialogMenu.style.top = '0';
+      } else if (window.screen.width < 576) {
+        dialogMenu.style.top = '100%';
+        dialogMenu.style.right = '0';
+      }
     } else if (!target.closest('.popup-menu')) {
       dialogMenu.style.top = '0';
       dialogMenu.style.right = '0';
@@ -47,18 +55,6 @@ const burgerMenu = () => {
     });
   });
 
-  menuIcon.addEventListener('click', () => {
-    if (window.screen.width > 1024) {
-      dialogMenu.style.right = '639px';
-      dialogMenu.style.top = '0';
-    } else if (window.screen.width < 1024 && window.screen.width > 576) {
-      dialogMenu.style.right = '549px';
-      dialogMenu.style.top = '0';
-    } else if (window.screen.width < 576) {
-      dialogMenu.style.top = '100%';
-      dialogMenu.style.right = '0';
-    }
-  });
 
   dialogMenu.addEventListener('click', e => {
     const target = e.target;

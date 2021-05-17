@@ -26,6 +26,9 @@ const sendForms = () => {
 
 
       if (checkBox.checked && body.phone && (body.name || body.name === undefined)) {
+        if (item.id === 'feedback6') {
+          item.closest('.popup').classList.toggle('visibility-visible');
+        }
 
         postData(body)
           .then(response => {
@@ -35,6 +38,7 @@ const sendForms = () => {
           })
           .then(() => {
             popupThank.classList.toggle('visibility-visible');
+            setTimeout(() => popupThank.classList.toggle('visibility-visible'), 3000);
             inputs.forEach(item => {
               item.value = '';
               if (item.checked) {

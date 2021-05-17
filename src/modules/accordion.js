@@ -3,7 +3,10 @@ const accordion = () => {
 
   accordionUl.addEventListener('click', e => {
     if (e.target.matches('.title_block')) {
-      e.target.classList.toggle('msg-active');
+      for (const li of accordionUl.children) {
+        li.firstElementChild.classList.remove('msg-active');
+      }
+      e.target.classList.add('msg-active');
     }
   });
 
