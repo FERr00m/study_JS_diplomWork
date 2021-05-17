@@ -308,6 +308,10 @@ if (!checkAdminCookie()) {
         data.forEach(element => {
           options.add(element.type);
         });
+        // typeItemSelect.innerHTML = `
+        //   <option value="Все услуги">Все услуги</option>
+        // `;
+
         [...options].sort().forEach(option => {
           typeItemSelect.insertAdjacentHTML('beforeend', `
             <option value="${option}">${option}</option>
