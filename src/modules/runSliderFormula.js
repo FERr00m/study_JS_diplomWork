@@ -25,7 +25,7 @@ const runSliderFormula = () => {
     infinity: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1025,
         slidesToShow: 1,
       },
     ]

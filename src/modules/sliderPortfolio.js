@@ -10,7 +10,7 @@ const sliderPortfolio = () => {
     infinity: false,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1025,
         slidesToShow: 2,
       },
       {

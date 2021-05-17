@@ -69,7 +69,7 @@ const worksList = () => {
     infinity: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1025,
         slidesToShow: 1,
       },
       {
@@ -88,7 +88,7 @@ const worksList = () => {
     infinity: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1025,
         slidesToShow: 1,
       },
       {
@@ -100,7 +100,7 @@ const worksList = () => {
   });
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth >= 1025) {
 
       btns.forEach(item => {
         item.classList.remove('glo-slider__item');
@@ -120,7 +120,7 @@ const worksList = () => {
   sliderMini.init();
   sliderMiniRep.init();
 
-  if (window.innerWidth > 576) {
+  if (window.innerWidth >= 1025) {
     btns.forEach(item => {
       item.classList.remove('glo-slider__item');
     });

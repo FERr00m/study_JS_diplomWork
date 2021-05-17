@@ -1,19 +1,5 @@
 'use strict';
-// const getRows = () => {
-//   const rows = document.querySelectorAll('.table__row');
 
-//   rows.forEach(item => {
-//     // for (let td of item.cells) {
-//     //   console.log(td);
-//     // }
-//     let arr = [];
-//     let obj = {...item.cells};
-//     console.log(obj);
-//     arr.push(obj);
-    
-//   })
-//   console.log(arr);
-// }
 
 //проверяем, есть ли нужное cookie, если нет делаем редирект//START
 const checkAdminCookie = () => {
@@ -36,6 +22,25 @@ const url = 'http://localhost:3000';
 if (!checkAdminCookie()) {
   document.location.href = `${location.origin}/admin/index.html`;
 } else {
+  const getRows = () => {
+    const rows = document.querySelectorAll('.table__row');
+    let arr = [];
+    rows.forEach(item => {
+    //console.table(item.cells);
+      
+      // let { type, name, units, cost, id } = { ...item.cells };
+      // console.log(type);
+      let obj = {...item.cells};
+      console.log(item.cells);
+      arr.push(obj);
+      
+    })
+    console.log(arr);
+    let obj2 = {};
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].forEach(obj)
+    }
+  }
   //Выборка со страницы//START
   const typeItemSelect = document.getElementById('typeItem'),
     tbody = document.getElementById('tbody'),
@@ -140,12 +145,12 @@ if (!checkAdminCookie()) {
             }
           });
         }
-
+        getRows();
       })
       .catch(error => console.error(error));
   };
 
-  getDataSelect();
+  //getDataSelect();
   //getDataSelect рендер в зависимости от выбранного типа услуг////END
 
 
