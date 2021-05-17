@@ -148,6 +148,17 @@ if (!checkAdminCookie()) {
   //renderModal рендерим объект в модалке, если нажали кнопку "изменить"//END
 
 
+  //clearModal очистка формы//START
+  const clearModal = () => {
+    formModal[0].value = '';
+    formModal[1].value = '';
+    formModal[2].value = '';
+    formModal[3].value = '';
+    modal.style.display = 'none';
+  };
+  //clearModal очистка формы//END
+
+
   //обработчик событий на весь документ//START
   document.body.addEventListener('click', e => {
     const target = e.target;
@@ -159,11 +170,7 @@ if (!checkAdminCookie()) {
     if (target.matches('#modal') || target.closest('.button__close') ||
     target.closest('.cancel-button')) {
       e.preventDefault();
-      formModal[0].value = '';
-      formModal[1].value = '';
-      formModal[2].value = '';
-      formModal[3].value = '';
-      modal.style.display = 'none';
+      clearModal();
     }
     if (target.closest('.action-change')) {
       const id = target.closest('.table__row').firstElementChild.textContent;
@@ -226,7 +233,7 @@ if (!checkAdminCookie()) {
             }
           })
           .then(() => {
-            modal.style.display = 'none';
+            clearModal();
             getDataSelect();
           })
           .catch(error => {
@@ -251,7 +258,7 @@ if (!checkAdminCookie()) {
             }
           })
           .then(() => {
-            modal.style.display = 'none';
+            clearModal();
             getDataSelect();
           })
           .catch(error => {

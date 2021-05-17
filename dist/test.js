@@ -700,7 +700,6 @@ const sliderPortfolio = () => {
     portfolioArrowRight.addEventListener('click', currentSlide);
     portfolioArrowLeft.addEventListener('click', currentSlide);
     transparencySlider.style = 'transform: translateX(0%)';
-
   }
 
   class SliderCarousel2 extends SliderCarousel {

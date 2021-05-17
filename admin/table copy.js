@@ -1,6 +1,21 @@
 'use strict';
+// const getRows = () => {
+//   const rows = document.querySelectorAll('.table__row');
 
-//проверяем, есть ли нужное cookie, если нет делаем редирект
+//   rows.forEach(item => {
+//     // for (let td of item.cells) {
+//     //   console.log(td);
+//     // }
+//     let arr = [];
+//     let obj = {...item.cells};
+//     console.log(obj);
+//     arr.push(obj);
+    
+//   })
+//   console.log(arr);
+// }
+
+//проверяем, есть ли нужное cookie, если нет делаем редирект//START
 const checkAdminCookie = () => {
   let flag = false;
   if (document.cookie) {
@@ -14,12 +29,14 @@ const checkAdminCookie = () => {
   }
   return flag;
 };
+//проверяем, есть ли нужное cookie, если нет делаем редирект//END
 
-const url = location.origin;
+const url = 'http://localhost:3000';
 
 if (!checkAdminCookie()) {
-  document.location.href = `http://localhost:3000/admin/index.html`;
+  document.location.href = `${location.origin}/admin/index.html`;
 } else {
+  //Выборка со страницы//START
   const typeItemSelect = document.getElementById('typeItem'),
     tbody = document.getElementById('tbody'),
     modal = document.getElementById('modal'),
@@ -27,35 +44,22 @@ if (!checkAdminCookie()) {
     modalHeader = modal.querySelector('.modal__header'),
     itemId = modal.querySelector('#item-id'),
     inputCost = modal.querySelector('#cost');
+  //Выборка со страницы//END
 
-  const getRows = () => {
-    const rows = document.querySelectorAll('.table__row');
 
-    rows.forEach(item => {
-      // for (let td of item.cells) {
-      //   console.log(td);
-      // }
-      let arr = [];
-      let obj = {...item.cells};
-      console.log(obj);
-      arr.push(obj);
-      
-    })
-    console.log(arr);
-  }
-
-  //регулярка для ввода цены(только цифры)
+  //регулярка для ввода цены(только цифры)//START
   inputCost.addEventListener('input', () => {
     inputCost.value = inputCost.value.replace(/\D/g, "");
   });
+  //регулярка для ввода цены(только цифры)//END
 
 
-  //Блок запросов к API
-  const getData = () => fetch(`http://localhost:3000/api/items`);
+  //Блок запросов к API//START
+  const getData = () => fetch(`${url}/api/items`);
 
-  const getDataId = id => fetch(`http://localhost:3000/api/items/${id}`);
+  const getDataId = id => fetch(`${url}/api/items/${id}`);
 
-  const postData = body => fetch(`http://localhost:3000/api/items`, {
+  const postData = body => fetch(`${url}/api/items`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -63,7 +67,7 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const patchData = (id, body) => fetch(`http://localhost:3000/api/items/${id}`, {
+  const patchData = (id, body) => fetch(`${url}/api/items/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -71,129 +75,17 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const deleteData = id => fetch(`http://localhost:3000/api/items/${id}`, {
+  const deleteData = id => fetch(`${url}/api/items/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     },
   });
+  //Блок запросов к API//END
 
-
-  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"
-  const renderModal = obj => {
-    const { type, name, units, cost, id } = obj;
-
-    formModal[0].value = type;
-    formModal[1].value = name;
-    formModal[2].value = units;
-    formModal[3].value = cost;
-    itemId.textContent = id;
-
-  };
-
-  //обработчик событий на весь документ
-  document.body.addEventListener('click', e => {
-    const target = e.target;
-
-    if (target.closest('.btn-addItem')) {
-      modalHeader.textContent = 'Добавение новой услуги';
-      modal.style.display = 'flex';
-    }
-    if (target.matches('#modal') || target.closest('.button__close') ||
-    target.closest('.cancel-button')) {
-      e.preventDefault();
-      formModal[0].value = '';
-      formModal[1].value = '';
-      formModal[2].value = '';
-      formModal[3].value = '';
-      modal.style.display = 'none';
-    }
-    if (target.closest('.action-change')) {
-      const id = target.closest('.table__row').firstElementChild.textContent;
-      modalHeader.textContent = 'Редактировать услугу';
-
-      getDataId(id)
-        .then(response => {
-          if (response.status !== 200) {
-            throw new Error('status Network not 200');
-          }
-          return (response.json());
-        })
-        .then(obj => {
-          renderModal(obj);
-        })
-        .catch(error => console.error(error));
-
-      modal.style.display = 'flex';
-    }
-    if (target.closest('.action-remove')) {
-      if (confirm('Вы действительно хотите удалить?')) {
-        const id = target.closest('.table__row').firstElementChild.textContent;
-        deleteData(id)
-          .then(response => {
-            if (response.status !== 200) {
-              throw new Error('status Network not 200');
-            }
-          })
-          .catch(error => console.error(error));
-      }
-    }
-  });
-
-
-  //sendForm отправка формы. Два варианта: новый и редактирование
-  formModal.addEventListener('submit', e => {
-    e.preventDefault();
-
-    if (modalHeader.textContent === 'Добавение новой услуги') {
-      const formData = new FormData(formModal),
-        body = {};
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
-
-      if (body.type && body.name && body.units && body.cost) {
-        body.cost = +body.cost;
-        postData(body)
-          .then(response => {
-            if (response.status !== 201) {
-              throw new Error('status Network not 201');
-            }
-          })
-          .catch(error => {
-            alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
-            console.error(error);
-          });
-      } else {
-        alert('Перед отправкой убедитесь, что вы заполнили все поля');
-      }
-    } else {
-      const formData = new FormData(formModal),
-        body = {};
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
-      if (body.type && body.name && body.units && body.cost) {
-        body.cost = +body.cost;
-        patchData(itemId.textContent, body)
-          .then(response => {
-            if (response.status !== 200) {
-              throw new Error('status Network not 200');
-            }
-          })
-          .catch(error => {
-            alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
-            console.error(error);
-          });
-      } else {
-        alert('Перед отправкой убедитесь, что вы заполнили все поля');
-      }
-    }
-  });
-
-
-  //render рендер услуг
+  //render рендер услуг//START
   const render = item => {
+
     const { type, name, units, cost, id } = item,
       el = document.createElement('tr');
 
@@ -222,30 +114,181 @@ if (!checkAdminCookie()) {
     tbody.insertAdjacentElement('beforeend', el);
 
   };
+  //render рендер услуг//END
 
 
-  //allServices рендер всех услуг
-  const allServices = () => {
+  //getDataSelect рендер в зависимости от выбранного типа услуг//START
+  const getDataSelect = () => {
+    const selectValue = typeItemSelect.value;
     getData()
       .then(response => {
         if (response.status !== 200) {
-          throw new Error('status Network not 200');
+          throw new Error('status Network NOT 200');
         }
         return (response.json());
       })
       .then(data => {
-        data.forEach(item => {
-          render(item);
-        });
+        tbody.innerHTML = '';
+        if (selectValue === 'Все услуги') {
+          data.forEach(item => {
+            render(item);
+          });
+        } else {
+          data.forEach(item => {
+            if (item.type === selectValue) {
+              render(item);
+            }
+          });
+        }
+
       })
-      .then(getRows)
       .catch(error => console.error(error));
   };
 
-  //allServices();
+  getDataSelect();
+  //getDataSelect рендер в зависимости от выбранного типа услуг////END
 
 
-  //makeOptions создаем список в select из услуг
+  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"//START
+  const renderModal = obj => {
+    const { type, name, units, cost, id } = obj;
+
+    formModal[0].value = type;
+    formModal[1].value = name;
+    formModal[2].value = units;
+    formModal[3].value = cost;
+    itemId.textContent = id;
+
+  };
+  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"//END
+
+
+  //clearModal очистка формы//START
+  const clearModal = () => {
+    formModal[0].value = '';
+    formModal[1].value = '';
+    formModal[2].value = '';
+    formModal[3].value = '';
+    modal.style.display = 'none';
+  };
+  //clearModal очистка формы//END
+
+
+  //обработчик событий на весь документ//START
+  document.body.addEventListener('click', e => {
+    const target = e.target;
+
+    if (target.closest('.btn-addItem')) {
+      modalHeader.textContent = 'Добавение новой услуги';
+      modal.style.display = 'flex';
+    }
+    if (target.matches('#modal') || target.closest('.button__close') ||
+    target.closest('.cancel-button')) {
+      e.preventDefault();
+      clearModal();
+    }
+    if (target.closest('.action-change')) {
+      const id = target.closest('.table__row').firstElementChild.textContent;
+      modalHeader.textContent = 'Редактировать услугу';
+
+      getDataId(id)
+        .then(response => {
+          if (response.status !== 200) {
+            throw new Error('status Network not 200');
+          }
+          return (response.json());
+        })
+        .then(obj => {
+          renderModal(obj);
+        })
+        .catch(error => console.error(error));
+
+      modal.style.display = 'flex';
+    }
+    if (target.closest('.action-remove')) {
+      if (confirm('Вы действительно хотите удалить?')) {
+        const id = target.closest('.table__row').firstElementChild.textContent;
+        deleteData(id)
+          .then(response => {
+            if (response.status !== 200) {
+              throw new Error('status Network not 200');
+            }
+          })
+          .then(() => {
+            getDataSelect();
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  });
+
+  typeItemSelect.addEventListener('change', () => {
+    getDataSelect();
+  });
+  //обработчик событий на весь документ////END
+
+
+  //sendForm отправка формы. Два варианта: новый и редактирование//START
+  formModal.addEventListener('submit', e => {
+    e.preventDefault();
+
+    if (modalHeader.textContent === 'Добавение новой услуги') {
+      const formData = new FormData(formModal),
+        body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+
+      if (body.type && body.name && body.units && body.cost) {
+        body.cost = +body.cost;
+        postData(body)
+          .then(response => {
+            if (response.status !== 201) {
+              throw new Error('status Network not 201');
+            }
+          })
+          .then(() => {
+            clearModal();
+            getDataSelect();
+          })
+          .catch(error => {
+            alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
+            console.error(error);
+          });
+      } else {
+        alert('Перед отправкой убедитесь, что вы заполнили все поля');
+      }
+    } else {
+      const formData = new FormData(formModal),
+        body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      if (body.type && body.name && body.units && body.cost) {
+        body.cost = +body.cost;
+        patchData(itemId.textContent, body)
+          .then(response => {
+            if (response.status !== 200) {
+              throw new Error('status Network not 200');
+            }
+          })
+          .then(() => {
+            clearModal();
+            getDataSelect();
+          })
+          .catch(error => {
+            alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
+            console.error(error);
+          });
+      } else {
+        alert('Перед отправкой убедитесь, что вы заполнили все поля');
+      }
+    }
+  });
+  //sendForm отправка формы. Два варианта: новый и редактирование//END
+
+
+  //makeOptions создаем список в select из услуг//START
   const makeOptions = () => {
     getData()
       .then(response => {
@@ -270,37 +313,5 @@ if (!checkAdminCookie()) {
   };
 
   makeOptions();
-
-
-  //showSelect рендер в зависимости от выбранного типа услуг
-  const showSelect = () => {
-    typeItemSelect.addEventListener('change', () => {
-      getData()
-        .then(response => {
-          if (response.status !== 200) {
-            throw new Error('status Network NOT 200');
-          }
-          return (response.json());
-        })
-        .then(data => {
-          tbody.innerHTML = '';
-          if (typeItemSelect.value === 'Все услуги') {
-            data.forEach(item => {
-              render(item);
-            });
-          } else {
-            data.forEach(item => {
-              if (item.type === typeItemSelect.value) {
-                render(item);
-              }
-            });
-          }
-        })
-        .then(getRows)
-        .catch(error => console.error(error));
-    });
-  };
-
-  showSelect();
-  //setTimeout(getRows, 2000);
 }
+//makeOptions создаем список в select из услуг//END
