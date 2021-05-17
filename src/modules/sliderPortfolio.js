@@ -46,7 +46,8 @@ const sliderPortfolio = () => {
     portfolioMobileLeft = document.querySelector('#portfolio-arrow-mobile_left'),
     portfolioCounter = document.getElementById('portfolio-counter'),
     portfolioCounterCur = portfolioCounter.querySelector('.slider-counter-content__current'),
-    portfolioCounterTot = portfolioCounter.querySelector('.slider-counter-content__total');
+    portfolioCounterTot = portfolioCounter.querySelector('.slider-counter-content__total'),
+    transparencySlider = document.querySelector('.transparency-slider');
 
   const firstSlider = document.querySelector('.portfolio-slider'),
     secondSlider = document.querySelector('.portfolio-slider-mobile');
@@ -94,6 +95,7 @@ const sliderPortfolio = () => {
       portfolioArrowRight.addEventListener('click', currentSlide);
       portfolioArrowLeft.addEventListener('click', currentSlide);
       portfolioCounterTot.textContent = runSliderPortfolio.slides.length - runSliderPortfolio.slidesToShow + 1;
+      transparencySlider.style = 'transform: translateX(0%)';
     }
   });
 
@@ -126,6 +128,7 @@ const sliderPortfolio = () => {
     portfolioMobileLeft.removeEventListener('click', currentSlideMini);
     portfolioArrowRight.addEventListener('click', currentSlide);
     portfolioArrowLeft.addEventListener('click', currentSlide);
+    transparencySlider.style = 'transform: translateX(0%)';
   }
 
   class SliderCarousel2 extends SliderCarousel {

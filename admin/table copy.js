@@ -1,6 +1,6 @@
 'use strict';
 
-//проверяем, есть ли нужное cookie, если нет делаем редирект//START
+//проверяем, есть ли нужное cookie, если нет делаем редирект
 const checkAdminCookie = () => {
   let flag = false;
   if (document.cookie) {
@@ -14,14 +14,12 @@ const checkAdminCookie = () => {
   }
   return flag;
 };
-//проверяем, есть ли нужное cookie, если нет делаем редирект//END
 
-const url = 'http://localhost:3000';
+const url = location.origin;
 
 if (!checkAdminCookie()) {
-  document.location.href = `${location.origin}/admin/index.html`;
+  document.location.href = `http://localhost:3000/admin/index.html`;
 } else {
-  //Выборка со страницы//START
   const typeItemSelect = document.getElementById('typeItem'),
     tbody = document.getElementById('tbody'),
     modal = document.getElementById('modal'),
@@ -29,22 +27,35 @@ if (!checkAdminCookie()) {
     modalHeader = modal.querySelector('.modal__header'),
     itemId = modal.querySelector('#item-id'),
     inputCost = modal.querySelector('#cost');
-  //Выборка со страницы//END
 
+  const getRows = () => {
+    const rows = document.querySelectorAll('.table__row');
 
-  //регулярка для ввода цены(только цифры)//START
+    rows.forEach(item => {
+      // for (let td of item.cells) {
+      //   console.log(td);
+      // }
+      let arr = [];
+      let obj = {...item.cells};
+      console.log(obj);
+      arr.push(obj);
+      
+    })
+    console.log(arr);
+  }
+
+  //регулярка для ввода цены(только цифры)
   inputCost.addEventListener('input', () => {
     inputCost.value = inputCost.value.replace(/\D/g, "");
   });
-  //регулярка для ввода цены(только цифры)//END
 
 
-  //Блок запросов к API//START
-  const getData = () => fetch(`${url}/api/items`);
+  //Блок запросов к API
+  const getData = () => fetch(`http://localhost:3000/api/items`);
 
-  const getDataId = id => fetch(`${url}/api/items/${id}`);
+  const getDataId = id => fetch(`http://localhost:3000/api/items/${id}`);
 
-  const postData = body => fetch(`${url}/api/items`, {
+  const postData = body => fetch(`http://localhost:3000/api/items`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -52,7 +63,7 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const patchData = (id, body) => fetch(`${url}/api/items/${id}`, {
+  const patchData = (id, body) => fetch(`http://localhost:3000/api/items/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -60,81 +71,15 @@ if (!checkAdminCookie()) {
     body: JSON.stringify(body)
   });
 
-  const deleteData = id => fetch(`${url}/api/items/${id}`, {
+  const deleteData = id => fetch(`http://localhost:3000/api/items/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     },
   });
-  //Блок запросов к API//END
-
-  //render рендер услуг//START
-  const render = item => {
-
-    const { type, name, units, cost, id } = item,
-      el = document.createElement('tr');
-
-    el.classList.add('table__row');
-    el.innerHTML = `
-      <td class="table__id table__cell">${id}</td>
-      <td class="table-type table__cell">${type}</td>
-      <td class="table-name table__cell">
-        ${name}
-      </td>
-      <td class="table-units table__cell">
-        ${units}
-      </td>
-      <td class="table-cost table__cell">
-        ${cost} руб
-      </td>
-      <td>
-        <div class="table__actions table__cell">
-          <button class="button action-change"><span class="svg_ui"><svg class="action-icon_change"><use xlink:href="./img/sprite.svg#change"></use></svg></span><span>Изменить</span>
-          </button>
-          <button class="button action-remove"><span class="svg_ui"><svg class="action-icon_remove"><use xlink:href="./img/sprite.svg#remove"></use></svg></span><span>Удалить</span>
-          </button>
-        </div>
-      </td>
-      `;
-    tbody.insertAdjacentElement('beforeend', el);
-
-  };
-  //render рендер услуг//END
 
 
-  //getDataSelect рендер в зависимости от выбранного типа услуг//START
-  const getDataSelect = () => {
-    const selectValue = typeItemSelect.value;
-    getData()
-      .then(response => {
-        if (response.status !== 200) {
-          throw new Error('status Network NOT 200');
-        }
-        return (response.json());
-      })
-      .then(data => {
-        tbody.innerHTML = '';
-        if (selectValue === 'Все услуги') {
-          data.forEach(item => {
-            render(item);
-          });
-        } else {
-          data.forEach(item => {
-            if (item.type === selectValue) {
-              render(item);
-            }
-          });
-        }
-
-      })
-      .catch(error => console.error(error));
-  };
-
-  getDataSelect();
-  //getDataSelect рендер в зависимости от выбранного типа услуг////END
-
-
-  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"//START
+  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"
   const renderModal = obj => {
     const { type, name, units, cost, id } = obj;
 
@@ -145,10 +90,8 @@ if (!checkAdminCookie()) {
     itemId.textContent = id;
 
   };
-  //renderModal рендерим объект в модалке, если нажали кнопку "изменить"//END
 
-
-  //обработчик событий на весь документ//START
+  //обработчик событий на весь документ
   document.body.addEventListener('click', e => {
     const target = e.target;
 
@@ -192,21 +135,13 @@ if (!checkAdminCookie()) {
               throw new Error('status Network not 200');
             }
           })
-          .then(() => {
-            getDataSelect();
-          })
           .catch(error => console.error(error));
       }
     }
   });
 
-  typeItemSelect.addEventListener('change', () => {
-    getDataSelect();
-  });
-  //обработчик событий на весь документ////END
 
-
-  //sendForm отправка формы. Два варианта: новый и редактирование//START
+  //sendForm отправка формы. Два варианта: новый и редактирование
   formModal.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -224,10 +159,6 @@ if (!checkAdminCookie()) {
             if (response.status !== 201) {
               throw new Error('status Network not 201');
             }
-          })
-          .then(() => {
-            modal.style.display = 'none';
-            getDataSelect();
           })
           .catch(error => {
             alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
@@ -250,10 +181,6 @@ if (!checkAdminCookie()) {
               throw new Error('status Network not 200');
             }
           })
-          .then(() => {
-            modal.style.display = 'none';
-            getDataSelect();
-          })
           .catch(error => {
             alert('При отправки заявки что-то пошло не так, попробуйте ещё раз');
             console.error(error);
@@ -263,10 +190,62 @@ if (!checkAdminCookie()) {
       }
     }
   });
-  //sendForm отправка формы. Два варианта: новый и редактирование//END
 
 
-  //makeOptions создаем список в select из услуг//START
+  //render рендер услуг
+  const render = item => {
+    const { type, name, units, cost, id } = item,
+      el = document.createElement('tr');
+
+    el.classList.add('table__row');
+    el.innerHTML = `
+      <td class="table__id table__cell">${id}</td>
+      <td class="table-type table__cell">${type}</td>
+      <td class="table-name table__cell">
+        ${name}
+      </td>
+      <td class="table-units table__cell">
+        ${units}
+      </td>
+      <td class="table-cost table__cell">
+        ${cost} руб
+      </td>
+      <td>
+        <div class="table__actions table__cell">
+          <button class="button action-change"><span class="svg_ui"><svg class="action-icon_change"><use xlink:href="./img/sprite.svg#change"></use></svg></span><span>Изменить</span>
+          </button>
+          <button class="button action-remove"><span class="svg_ui"><svg class="action-icon_remove"><use xlink:href="./img/sprite.svg#remove"></use></svg></span><span>Удалить</span>
+          </button>
+        </div>
+      </td>
+      `;
+    tbody.insertAdjacentElement('beforeend', el);
+
+  };
+
+
+  //allServices рендер всех услуг
+  const allServices = () => {
+    getData()
+      .then(response => {
+        if (response.status !== 200) {
+          throw new Error('status Network not 200');
+        }
+        return (response.json());
+      })
+      .then(data => {
+        data.forEach(item => {
+          render(item);
+        });
+      })
+      .then(getRows)
+      .catch(error => console.error(error));
+  };
+
+  //allServices();
+
+
+  //makeOptions создаем список в select из услуг
   const makeOptions = () => {
     getData()
       .then(response => {
@@ -291,5 +270,37 @@ if (!checkAdminCookie()) {
   };
 
   makeOptions();
+
+
+  //showSelect рендер в зависимости от выбранного типа услуг
+  const showSelect = () => {
+    typeItemSelect.addEventListener('change', () => {
+      getData()
+        .then(response => {
+          if (response.status !== 200) {
+            throw new Error('status Network NOT 200');
+          }
+          return (response.json());
+        })
+        .then(data => {
+          tbody.innerHTML = '';
+          if (typeItemSelect.value === 'Все услуги') {
+            data.forEach(item => {
+              render(item);
+            });
+          } else {
+            data.forEach(item => {
+              if (item.type === typeItemSelect.value) {
+                render(item);
+              }
+            });
+          }
+        })
+        .then(getRows)
+        .catch(error => console.error(error));
+    });
+  };
+
+  showSelect();
+  //setTimeout(getRows, 2000);
 }
-//makeOptions создаем список в select из услуг//END

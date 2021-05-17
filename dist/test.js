@@ -617,7 +617,8 @@ const sliderPortfolio = () => {
     portfolioMobileLeft = document.querySelector('#portfolio-arrow-mobile_left'),
     portfolioCounter = document.getElementById('portfolio-counter'),
     portfolioCounterCur = portfolioCounter.querySelector('.slider-counter-content__current'),
-    portfolioCounterTot = portfolioCounter.querySelector('.slider-counter-content__total');
+    portfolioCounterTot = portfolioCounter.querySelector('.slider-counter-content__total'),
+    transparencySlider = document.querySelector('.transparency-slider');
 
   const firstSlider = document.querySelector('.portfolio-slider'),
     secondSlider = document.querySelector('.portfolio-slider-mobile');
@@ -665,6 +666,7 @@ const sliderPortfolio = () => {
       portfolioArrowRight.addEventListener('click', currentSlide);
       portfolioArrowLeft.addEventListener('click', currentSlide);
       portfolioCounterTot.textContent = runSliderPortfolio.slides.length - runSliderPortfolio.slidesToShow + 1;
+      transparencySlider.style = 'transform: translateX(0%)';
     }
   });
 
@@ -697,6 +699,8 @@ const sliderPortfolio = () => {
     portfolioMobileLeft.removeEventListener('click', currentSlideMini);
     portfolioArrowRight.addEventListener('click', currentSlide);
     portfolioArrowLeft.addEventListener('click', currentSlide);
+    transparencySlider.style = 'transform: translateX(0%)';
+
   }
 
   class SliderCarousel2 extends SliderCarousel {
@@ -939,10 +943,11 @@ accordion();
 const worksList = () => {
   const getData = () => fetch(location.origin + '/crm-backend/db.json'),
     popupRepairTypes = document.querySelector('.popup-repair-types'),
-    btns = popupRepairTypes.querySelectorAll('.popup-repair-types-nav__item'),
+    btns = document.querySelectorAll('.button_o'),
     switchInner = document.getElementById('switch-inner'),
     popupTableList = document.querySelector('.popup-repair-types-content-table__list'),
-    navListPopupRepair = document.querySelector('.nav-list-popup-repair');
+    navListPopupRepair = document.querySelector('.nav-list-popup-repair'),
+    navListRepairWrap = document.querySelector('.nav-list-repair');
 
 
   const render = item => {
@@ -1036,11 +1041,14 @@ const worksList = () => {
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 1024) {
+
       btns.forEach(item => {
         item.classList.remove('glo-slider__item');
       });
       navListPopupRepair.classList.remove('glo-slider__wrap');
       navListPopupRepair.style = 'transform: translateX(0);';
+      navListRepairWrap.style = 'transform: translateX(0%)';
+      navListRepairWrap.classList.remove('glo-slider__wrap');
     } else {
       btns.forEach(item => {
         item.classList.add('glo-slider__item');
@@ -1049,9 +1057,22 @@ const worksList = () => {
     }
   });
 
-  if (window.innerWidth < 1024) {
-    sliderMini.init();
-    sliderMiniRep.init();
+  sliderMini.init();
+  sliderMiniRep.init();
+
+  if (window.innerWidth > 576) {
+    btns.forEach(item => {
+      item.classList.remove('glo-slider__item');
+    });
+    navListPopupRepair.classList.remove('glo-slider__wrap');
+    navListPopupRepair.style = 'transform: translateX(0);';
+    navListRepairWrap.style = 'transform: translateX(0%)';
+    navListRepairWrap.classList.remove('glo-slider__wrap');
+  } else {
+    btns.forEach(item => {
+      item.classList.add('glo-slider__item');
+    });
+    navListPopupRepair.classList.add('glo-slider__wrap');
   }
 };
 
