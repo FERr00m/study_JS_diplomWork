@@ -1,7 +1,7 @@
 import SliderCarousel from './SliderCarousel';
 
 const worksList = () => {
-  const getData = () => fetch(location.origin + '/crm-backend/db.json'),
+  const getData = () => fetch('./crm-backend/db.json'),
     popupRepairTypes = document.querySelector('.popup-repair-types'),
     btns = document.querySelectorAll('.button_o'),
     switchInner = document.getElementById('switch-inner'),
